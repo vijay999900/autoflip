@@ -82,7 +82,7 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
             //         whatsapp_posts2(finalAmznData, finalIdList[1].apiKey,finalIdList[1].phoneId,finalIdList[1].productId);
             //       }
             //       if(teleFlag == '1' ){
-              if(siteheadidsdng && amzn_data){
+           if(siteheadidsdng && siteheadidsdng != 'undefined' && amzn_data){
                   // telePost(amzn_data,siteheadidsdng[0],finalAmznData,"@salebabaG")
                   for (let l = 0; l < telegroup.length; l++) {
                     telePost(amzn_data,siteheadidsdng[0],finalAmznData,telegroup[l].groupname)
