@@ -480,7 +480,7 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
 			  }
 			})
                       // postImageWidth(getUrlPost[0],ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed);
-                    }else{
+                    }else if(finalAmazon.match(/flipkart.com/g)){
                       postFlipkartImageWidth(getUrlPost[0],ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed);
                     }
                },Math.ceil(array.length/5)*3500);
