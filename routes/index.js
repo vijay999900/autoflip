@@ -36,8 +36,8 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
             console.log('err: ', err);
             }else{
 		    // if((teleFlag == '1' && wattsflag == '1')  || (teleFlag == '0' && wattsflag == '1' ) ){
-        //         whatsapp_posts1(finalAmznData, finalIdList[0].apiKey,finalIdList[0].phoneId,finalIdList[0].productId);
-        //         whatsapp_posts2(finalAmznData, finalIdList[1].apiKey,finalIdList[1].phoneId,finalIdList[1].productId);
+                whatsapp_posts1(finalAmznData, finalIdList[0].apiKey,finalIdList[0].phoneId,finalIdList[0].productId);
+                whatsapp_posts2(finalAmznData, finalIdList[1].apiKey,finalIdList[1].phoneId,finalIdList[1].productId);
         //       }
         //       if(teleFlag == '1' ){
                 if(siteheadidsdng && amzn_data){
@@ -78,8 +78,8 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
                 console.log('err: ', err);
                 }else{
             // if((teleFlag == '1' && wattsflag == '1')  || (teleFlag == '0' && wattsflag == '1' ) ){
-            //         whatsapp_posts1(finalAmznData, finalIdList[0].apiKey,finalIdList[0].phoneId,finalIdList[0].productId);
-            //         whatsapp_posts2(finalAmznData, finalIdList[1].apiKey,finalIdList[1].phoneId,finalIdList[1].productId);
+                    whatsapp_posts1(finalAmznData, finalIdList[0].apiKey,finalIdList[0].phoneId,finalIdList[0].productId);
+                    whatsapp_posts2(finalAmznData, finalIdList[1].apiKey,finalIdList[1].phoneId,finalIdList[1].productId);
             //       }
             //       if(teleFlag == '1' ){
            if(siteheadidsdng && siteheadidsdng != 'undefined' && amzn_data){
@@ -301,12 +301,22 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
     }
 
     function posttele (bodyss, lastInsertId, lastArrayData) {
-      let sqlsss = "SELECT * FROM post_flags";
-        connection.query(sqlsss, function (err, flagData) {
-          if (err) {
-            console.log('err: ', err);
-          }
-        let ListflagData = flagData[0];
+       let requestHeaders1 = {
+        "Content-Type": "application/json",
+        "accept": "application/json"
+      }
+      request({
+        uri: "https://postmanual7.herokuapp.com/singlepostFlags",
+        method: "GET",
+        headers: requestHeaders1
+      }, (err, response, body) => {
+        let ListflagData = JSON.parse(body);
+//       let sqlsss = "SELECT * FROM post_flags";
+//         connection.query(sqlsss, function (err, flagData) {
+//           if (err) {
+//             console.log('err: ', err);
+//           }
+//         let ListflagData = flagData[0];
         let bitly = new BitlyClient(ListflagData.current_bitly);
         let sqls = "SELECT post_id FROM post_telegram ORDER BY id DESC LIMIT 1";
         connection.query(sqls, function (err, rides) {
