@@ -36,11 +36,13 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
             console.log('err: ', err);
             }else{
 		    // if((teleFlag == '1' && wattsflag == '1')  || (teleFlag == '0' && wattsflag == '1' ) ){
-                whatsapp_posts1(finalAmznData, finalIdList[0].apiKey,finalIdList[0].phoneId,finalIdList[0].productId);
-                whatsapp_posts2(finalAmznData, finalIdList[1].apiKey,finalIdList[1].phoneId,finalIdList[1].productId);
+//                 whatsapp_posts1(finalAmznData, finalIdList[0].apiKey,finalIdList[0].phoneId,finalIdList[0].productId);
+//                 whatsapp_posts2(finalAmznData, finalIdList[1].apiKey,finalIdList[1].phoneId,finalIdList[1].productId);
         //       }
         //       if(teleFlag == '1' ){
-                if(siteheadidsdng && amzn_data){
+                if(siteheadidsdng && siteheadidsdng != 'undefined' && amzn_data){
+	          whatsapp_posts1(finalAmznData,siteheadidsdng[0], finalIdList[0].apiKey,finalIdList[0].phoneId,finalIdList[0].productId);
+                  whatsapp_posts2(finalAmznData,siteheadidsdng[0], finalIdList[1].apiKey,finalIdList[1].phoneId,finalIdList[1].productId);
                   // telePost(amzn_data,siteheadidsdng,finalAmznData,"@salebabaG")
                   for (let l = 0; l < telegroup.length; l++) {
                     telePost(amzn_data,siteheadidsdng,finalAmznData,telegroup[l].groupname)
@@ -78,11 +80,14 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
                 console.log('err: ', err);
                 }else{
             // if((teleFlag == '1' && wattsflag == '1')  || (teleFlag == '0' && wattsflag == '1' ) ){
-                    whatsapp_posts1(finalAmznData, finalIdList[0].apiKey,finalIdList[0].phoneId,finalIdList[0].productId);
-                    whatsapp_posts2(finalAmznData, finalIdList[1].apiKey,finalIdList[1].phoneId,finalIdList[1].productId);
+//                     whatsapp_posts1(finalAmznData, finalIdList[0].apiKey,finalIdList[0].phoneId,finalIdList[0].productId);
+//                     whatsapp_posts2(finalAmznData, finalIdList[1].apiKey,finalIdList[1].phoneId,finalIdList[1].productId);
             //       }
             //       if(teleFlag == '1' ){
            if(siteheadidsdng && siteheadidsdng != 'undefined' && amzn_data){
+		   whatsapp_posts1(finalAmznData,siteheadidsdng[0], finalIdList[0].apiKey,finalIdList[0].phoneId,finalIdList[0].productId);
+                  whatsapp_posts2(finalAmznData,siteheadidsdng[0], finalIdList[1].apiKey,finalIdList[1].phoneId,finalIdList[1].productId);
+                 
                   // telePost(amzn_data,siteheadidsdng[0],finalAmznData,"@salebabaG")
                   for (let l = 0; l < telegroup.length; l++) {
                     telePost(amzn_data,siteheadidsdng[0],finalAmznData,telegroup[l].groupname)
@@ -607,7 +612,9 @@ function urlencodedd(str) {
   .replace(/%E2%97%B2/g,' ◲').replace(/%E2%97%B3/g,' ◳').replace(/%E2%97%B4/g,' ◴').replace(/%E2%97%B5/g,' ◵').replace(/%E2%97%B6/g,' ◶').replace(/%E2%97%B7/g,' ◷').replace(/%E2%97%B8/g,' ◸').replace(/%E2%97%B9/g,' ◹').replace(/%E2%97%BA/g,' ◺').replace(/%E2%97%BB/g,' ◻').replace(/%E2%97%BC/g,' ◼').replace(/%E2%97%BD/g,' ◽').replace(/%E2%97%BE/g,' ◾').replace(/%E2%97%BF/g,' ◿')
   }
 
-function whatsapp_posts1(AmazonMsg,Amznapi,Amznphoneid,Amznprodid){
+// function whatsapp_posts1(AmazonMsg,Amznapi,Amznphoneid,Amznprodid){
+function whatsapp_posts1(AmazonMsg,AmazonPhoto,Amznapi,Amznphoneid,Amznprodid){
+
 	console.log("yes working");
 	console.log("yes working1",AmazonMsg);
 	console.log("yes working1",Amznapi);
@@ -703,30 +710,50 @@ function whatsapp_posts1(AmazonMsg,Amznapi,Amznphoneid,Amznprodid){
 	for (let i = 0; i < arrayGroupNumber.length; i++) {
 	  var ggff = urlencodedd(AmazonMsg);
 	  if(ggff != 'null' && ggff != 'undefined' ){
-	  let requestHeaders1 = {
-	    "Content-Type": "application/json",
-	    "accept": "application/json"
-	  }
-	  let linkRequest1;
-	  linkRequest1 = {
-	    "chatId": arrayGroupNumber[i].id,
-	    "body": randomMonth + ggff
-	  }
-	  request({
-	    uri: "https://api.chat-api.com/"+Amznphoneid+"/sendMessage?token="+ Amznprodid,
-	    method: "POST",
-	    body: JSON.stringify(linkRequest1),
-	    headers: requestHeaders1
-	  }, (err, response, body) => {
-		  console.log('sss',body);
-		  console.log('errrr',err);
-	    let link = JSON.parse(body);
-	  })
+// 	  let requestHeaders1 = {
+// 	    "Content-Type": "application/json",
+// 	    "accept": "application/json"
+// 	  }
+// 	  let linkRequest1;
+// 	  linkRequest1 = {
+// 	    "chatId": arrayGroupNumber[i].id,
+// 	    "body": randomMonth + ggff
+// 	  }
+// 	  request({
+// 	    uri: "https://api.chat-api.com/"+Amznphoneid+"/sendMessage?token="+ Amznprodid,
+// 	    method: "POST",
+// 	    body: JSON.stringify(linkRequest1),
+// 	    headers: requestHeaders1
+// 	  }, (err, response, body) => {
+// 		  console.log('sss',body);
+// 		  console.log('errrr',err);
+// 	    let link = JSON.parse(body);
+// 	  })
+		  
+         let requestHeaders1 = {
+		"Content-Type": "application/json",
+		"accept": "application/json"
+		}
+		let linkRequest1;
+		linkRequest1 = {
+		"chatId": arrayGroupNumber[i].id,
+		"body": AmazonPhoto,
+		"filename":"jkjjjk.jpg",
+		"caption": randomMonth + ggff
+		}
+		request({
+		uri: "https://api.chat-api.com/"+Amznphoneid+"/sendFile?token="+Amznprodid,
+		method: "POST",
+		body: JSON.stringify(linkRequest1),
+		headers: requestHeaders1
+		}, (err, response, body) => {
+		let link = JSON.parse(body);
+		})
 	}
 	}
   }
 
-function whatsapp_posts2(AmazonMsg,Amznapi,Amznphoneid,Amznprodid){
+function whatsapp_posts2(AmazonMsg,AmazonPhoto,Amznapi,Amznphoneid,Amznprodid){
     let arrayGroupNumber = [
       {
         "name": "Amazon Offer Alert - 13🛍🛒🔥",
@@ -809,23 +836,42 @@ function whatsapp_posts2(AmazonMsg,Amznapi,Amznphoneid,Amznprodid){
 	for (let i = 0; i < arrayGroupNumber.length; i++) {
 	  var ggff = urlencodedd(AmazonMsg);
 	  if(ggff != 'null' && ggff != 'undefined' ){
-	  let requestHeaders1 = {
-	    "Content-Type": "application/json",
-	    "accept": "application/json"
-	  }
-	  let linkRequest1;
-	  linkRequest1 = {
-	    "chatId": arrayGroupNumber[i].id,
-	    "body": randomMonth + ggff
-	  }
-	  request({
-	    uri: "https://api.chat-api.com/"+Amznphoneid+"/sendMessage?token="+ Amznprodid,
-	    method: "POST",
-	    body: JSON.stringify(linkRequest1),
-	    headers: requestHeaders1
-	  }, (err, response, body) => {
-	    let link = JSON.parse(body);
-	  })
+// 	  let requestHeaders1 = {
+// 	    "Content-Type": "application/json",
+// 	    "accept": "application/json"
+// 	  }
+// 	  let linkRequest1;
+// 	  linkRequest1 = {
+// 	    "chatId": arrayGroupNumber[i].id,
+// 	    "body": randomMonth + ggff
+// 	  }
+// 	  request({
+// 	    uri: "https://api.chat-api.com/"+Amznphoneid+"/sendMessage?token="+ Amznprodid,
+// 	    method: "POST",
+// 	    body: JSON.stringify(linkRequest1),
+// 	    headers: requestHeaders1
+// 	  }, (err, response, body) => {
+// 	    let link = JSON.parse(body);
+// 	  })
+		 let requestHeaders1 = {
+      "Content-Type": "application/json",
+      "accept": "application/json"
+    }
+let linkRequest1;
+    linkRequest1 = {
+      "chatId": arrayGroupNumber[i].id,
+      "body": AmazonPhoto,
+      "filename":"jkjjjk.jpg",
+      "caption": randomMonth + ggff
+    }
+    request({
+      uri: "https://api.chat-api.com/"+Amznphoneid+"/sendFile?token="+Amznprodid,
+      method: "POST",
+      body: JSON.stringify(linkRequest1),
+      headers: requestHeaders1
+    }, (err, response, body) => {
+      let link = JSON.parse(body);
+    })
 	}
 	}
   }
