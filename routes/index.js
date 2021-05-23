@@ -483,13 +483,13 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
                   let finalIdListed = JSON.parse(ListflagData.array_data).user;
                   let finalPostList = JSON.parse(ListflagData.all_tele_group).telenogroup;
                     if(finalAmazon.match(/amazon.in/g)){
-		     let sqlss = "INSERT INTO post_telegram (post_id,data) VALUES (" + nextId + ",'demo')";
-			connection.query(sqlss, function (err, rides) {
-			  if (err) {
-			  console.log('err: ', err);
-			  }
-			})
-                      // postImageWidth(getUrlPost[0],ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed);
+// 		     let sqlss = "INSERT INTO post_telegram (post_id,data) VALUES (" + nextId + ",'demo')";
+// 			connection.query(sqlss, function (err, rides) {
+// 			  if (err) {
+// 			  console.log('err: ', err);
+// 			  }
+// 			})
+                      postImageWidth(getUrlPost[0],ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed);
                     }else if(finalAmazon.match(/flipkart.com/g)){
                       postFlipkartImageWidth(getUrlPost[0],ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed);
                     }
