@@ -306,11 +306,11 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
         "accept": "application/json"
       }
       request({
-        uri: "https://postmanual7.herokuapp.com/singlepostFlags",
+       uri: "https://postermanual10.herokuapp.com/singlepostFlags",
         method: "GET",
         headers: requestHeaders1
       }, (err, response, body) => {
-        let ListflagData = JSON.parse(body);
+        let ListflagData = JSON.parse(body).data;
 //       let sqlsss = "SELECT * FROM post_flags";
 //         connection.query(sqlsss, function (err, flagData) {
 //           if (err) {
