@@ -85,8 +85,8 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
             //       }
             //       if(teleFlag == '1' ){
            if(siteheadidsdng && siteheadidsdng != 'undefined' && amzn_data){
-		   whatsapp_posts1(finalAmznData,siteheadidsdng[0], finalIdList[0].apiKey,finalIdList[0].phoneId,finalIdList[0].productId);
-                  whatsapp_posts2(finalAmznData,siteheadidsdng[0], finalIdList[1].apiKey,finalIdList[1].phoneId,finalIdList[1].productId);
+// 		   whatsapp_posts1(finalAmznData,siteheadidsdng[0], finalIdList[0].apiKey,finalIdList[0].phoneId,finalIdList[0].productId);
+//                   whatsapp_posts2(finalAmznData,siteheadidsdng[0], finalIdList[1].apiKey,finalIdList[1].phoneId,finalIdList[1].productId);
                  
                   // telePost(amzn_data,siteheadidsdng[0],finalAmznData,"@salebabaG")
                   for (let l = 0; l < telegroup.length; l++) {
