@@ -41,8 +41,8 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
         //       }
         //       if(teleFlag == '1' ){
                 if(siteheadidsdng && siteheadidsdng != 'undefined' && amzn_data){
-	          whatsapp_posts1(finalAmznData,siteheadidsdng, finalIdList[0].apiKey,finalIdList[0].phoneId,finalIdList[0].productId);
-                  whatsapp_posts2(finalAmznData,siteheadidsdng, finalIdList[1].apiKey,finalIdList[1].phoneId,finalIdList[1].productId);
+// 	          whatsapp_posts1(finalAmznData,siteheadidsdng, finalIdList[0].apiKey,finalIdList[0].phoneId,finalIdList[0].productId);
+//                   whatsapp_posts2(finalAmznData,siteheadidsdng, finalIdList[1].apiKey,finalIdList[1].phoneId,finalIdList[1].productId);
                   // telePost(amzn_data,siteheadidsdng,finalAmznData,"@salebabaG")
                   for (let l = 0; l < telegroup.length; l++) {
                     telePost(amzn_data,siteheadidsdng,finalAmznData,telegroup[l].groupname)
@@ -488,13 +488,13 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
                   let finalIdListed = JSON.parse(ListflagData.array_data).user;
                   let finalPostList = JSON.parse(ListflagData.all_tele_group).telenogroup;
                     if(finalAmazon.match(/amazon.in/g)){
-		     let sqlss = "INSERT INTO post_telegram (post_id,data) VALUES (" + nextId + ",'demo')";
-			connection.query(sqlss, function (err, rides) {
-			  if (err) {
-			  console.log('err: ', err);
-			  }
-			})
-//                       postImageWidth(getUrlPost[0],ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed);
+// 		     let sqlss = "INSERT INTO post_telegram (post_id,data) VALUES (" + nextId + ",'demo')";
+// 			connection.query(sqlss, function (err, rides) {
+// 			  if (err) {
+// 			  console.log('err: ', err);
+// 			  }
+// 			})
+                      postImageWidth(getUrlPost[0],ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed);
                     }else if(finalAmazon.match(/flipkart.com/g)){
                       postFlipkartImageWidth(getUrlPost[0],ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed);
                     }
