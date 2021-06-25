@@ -384,14 +384,14 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
                       }
                      
                     let tagnots= finalLink.join('&').replace(/@/g, '').replace(/&&/g, '&').replace(/([\?][\/])/g, '?').replace(/(\?&)/g, '?').replace(/&&&/g, '&').replace(/([\/][\?])/g, '?');
-                    let tagnotRep= tagnots.replace(/[\?]/g,'?tag=kudrats-21&').replace(/&&/g, '&').replace(/([\?][\/])/g, '?').replace(/(\?&)/g, '?').replace(/&&&/g, '&').replace(/([\/][\?])/g, '?');
+                    let tagnotRep= tagnots.replace(/[\?]/g,'?tag='+randomTagSelect+'&').replace(/&&/g, '&').replace(/([\?][\/])/g, '?').replace(/(\?&)/g, '?').replace(/&&&/g, '&').replace(/([\/][\?])/g, '?');
                      if(tagnotRep.charAt(tagnotRep.length-1) == '&'){
                       tagnot= tagnotRep.slice(0, -1);
                      }else{
                       tagnot= tagnotRep;
                      }
                     }else{
-                     tagnot= unshortenedUrl.replace(/@/g, '').concat('?tag=kudrats-21').replace(/&&/g, '&').replace(/(\?&)/g, '?').replace(/&&&/g, '&');
+                     tagnot= unshortenedUrl.replace(/@/g, '').concat('?tag='+randomTagSelect).replace(/&&/g, '&').replace(/(\?&)/g, '?').replace(/&&&/g, '&');
                     }
                     exampless(tagnot.replace(/&demoyou/g, ''));
                     function exampless(dddd) {  
