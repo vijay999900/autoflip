@@ -278,7 +278,7 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
               console.log('err: ', err);
             }
             else if (rides[0].cnt == 0) {
-             posttele (rides[0].cnt, last_insert_id.id, matchObj);
+//              posttele (rides[0].cnt, last_insert_id.id, matchObj);
             } else {
               // nextCall(null, bodyss);
             }
@@ -395,7 +395,7 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
                     }
                     exampless(tagnot.replace(/&demoyou/g, ''));
                     function exampless(dddd) {  
-                       final[j] = "https://top9deals.com/DealMakePage?dl="+array[j].replace(urls[0].replace(/@/g, ' ').trim(),dddd).replace(/https:\/\//g, '');
+                       final[j] = array[j].replace(urls[0].replace(/@/g, ' ').trim(),dddd);
                     }
 						  }else if(unshortenedUrl.match(/flipkart.com/g)){
                         let tagnot;
