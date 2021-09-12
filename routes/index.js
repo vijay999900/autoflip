@@ -395,7 +395,7 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
                     }
                     exampless(tagnot.replace(/&demoyou/g, ''));
                     function exampless(dddd) {  
-                       final[j] = array[j].replace(urls[0].replace(/@/g, ' ').trim(),dddd);
+                       final[j] = "https://top9deals.com/DealMakePage?dl="+array[j].replace(urls[0].replace(/@/g, ' ').trim(),dddd).replace(/https:\/\//g, '');
                     }
 						  }else if(unshortenedUrl.match(/flipkart.com/g)){
                         let tagnot;
