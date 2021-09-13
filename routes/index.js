@@ -514,8 +514,10 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
                    unshort(getUrlPost[0]).then(function(unshortenedUrls){ 
                     let checkurl = unshortenedUrls.unshorten.replace(/&amp;/g,'&');
                     if(checkurl.match(/amazon.in/g)){
-                      console.log("filll------");
-                      postImageWidth(checkurl.replace('https://top9deals.com/DealMakePage?dl=','https://').replace(/\/tag/g, '?tag'),ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed);
+                      console.log("filll------");  
+                     postImageWidth(checkurl.replace('https://top9deals.com/DealMakePage?dl=','https://').replace('https://bestshoppingdeal.in/DealMakePage?dl=','https://').replace(/\/tag/g, '?tag'),ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed);
+
+//                       postImageWidth(checkurl.replace('https://top9deals.com/DealMakePage?dl=','https://').replace(/\/tag/g, '?tag'),ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed);
                     }else if(checkurl.match(/flipkart.com/g)){
 //                       postFlipkartImageWidth(getUrlPost[0],ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed);
                     }
