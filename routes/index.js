@@ -393,7 +393,12 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
                     }else{
                      tagnot= unshortenedUrl.replace(/@/g, '').concat('?tag='+randomTagSelect).replace(/&&/g, '&').replace(/(\?&)/g, '?').replace(/&&&/g, '&');
                     }
-                    example(tagnot.replace(/&demoyou/g, '').replace(/https:\/\//g, 'https://top9deals.com/DealMakePage?dl=').replace(/\?tag/g, '/tag'));
+			    if(tagnot.match(/salebaba-21/g){
+                                example(tagnot.replace(/&demoyou/g, '').replace(/https:\/\//g, 'https://top9deals.com/DealMakePage?dl=').replace(/\?tag/g, '/tag'));
+			      }else{
+                                example(tagnot.replace(/&demoyou/g, '').replace(/https:\/\//g, 'https://bestshoppingdeal.in/DealMakePage?dl=').replace(/\?tag/g, '/tag'));
+			    }
+                    
                     async function example(dddd) {
                       let response =await bitly
                       .shorten(dddd)
