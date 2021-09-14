@@ -21,6 +21,88 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+setInterval( function setup() {
+  let sqlsss = "SELECT * FROM post_flags";
+  connection.query(sqlsss, function (err, ListflagData) {
+    let finalPostList =  JSON.parse(ListflagData[0].all_tele_group2).telenogroup;
+    let finalPostList1 =  JSON.parse(ListflagData[0].all_tele_group1).telenogroup;
+    var a = moment().utcOffset("+05:30").format("HH:mm");
+    if(a == "07:00"|| a == "07:15"|| a == "07:30"|| a == "07:45"||a == "08:00"|| a == "08:15"|| a == "08:30"|| a == "08:45"|| a == "09:00"|| a == "09:15"|| a == "09:30"|| a == "09:45"|| a == "10:00"|| a == "10:15"|| a == "10:30"|| a == "10:45"|| a == "11:00"|| a == "11:15"|| a == "11:30"|| a == "11:45"|| a == "12:00"|| a == "12:15"|| a == "12:30"|| a == "12:45"|| a == "13:00"|| a == "13:15"|| a == "13:30"|| a == "13:45"|| a == "14:00"|| a == "14:15"|| a == "14:30"|| a == "14:45"|| a == "15:00"|| a == "15:15"|| a == "15:30"|| a == "15:45"|| a == "16:00"|| a == "16:15"|| a == "16:30"|| a == "16:45"|| a == "17:00"|| a == "17:15"|| a == "17:30"|| a == "17:45"|| a == "18:00"|| a == "18:15"|| a == "18:30"|| a == "18:45"|| a == "19:00"|| a == "19:15"|| a == "19:30"|| a == "19:45"|| a == "20:00"|| a == "20:15"|| a == "20:30"|| a == "20:45"|| a == "21:00"|| a == "21:15"|| a == "21:30"|| a == "21:45"|| a == "22:00"|| a == "22:15"|| a == "22:30"|| a == "22:45"|| a == "23:00"|| a == "23:15"|| a == "23:30"|| a == "23:45"){
+      console.log("a");
+      autopostFunction(ListflagData,finalPostList,'salebaba-21');
+      autopostFunction(ListflagData,finalPostList1,'kudrats-21');
+    }else if(a == "07:01"|| a == "07:16"|| a == "07:31"|| a == "07:46"||a == "08:01"|| a == "08:16"|| a == "08:31"|| a == "08:46"|| a == "09:01"|| a == "09:16"|| a == "09:31"|| a == "09:46"|| a == "10:01"|| a == "10:16"|| a == "10:31"|| a == "10:46"|| a == "11:01"|| a == "11:16"|| a == "11:31"|| a == "11:46"|| a == "12:01"|| a == "12:16"|| a == "12:31"|| a == "12:46"|| a == "13:01"|| a == "13:16"|| a == "13:31"|| a == "13:46"|| a == "14:01"|| a == "14:16"|| a == "14:31"|| a == "14:46"|| a == "15:01"|| a == "15:16"|| a == "15:31"|| a == "15:46"|| a == "16:01"|| a == "16:16"|| a == "16:31"|| a == "16:46"|| a == "17:01"|| a == "17:16"|| a == "17:31"|| a == "17:46"|| a == "18:01"|| a == "18:16"|| a == "18:31"|| a == "18:46"|| a == "19:01"|| a == "19:16"|| a == "19:31"|| a == "19:46"|| a == "20:01"|| a == "20:16"|| a == "20:31"|| a == "20:46"|| a == "21:01"|| a == "21:16"|| a == "21:31"|| a == "21:46"|| a == "22:01"|| a == "22:16"|| a == "22:31"|| a == "22:46"|| a == "23:01"|| a == "23:16"|| a == "23:31"|| a == "23:46"){
+      console.log("a--");
+      autopostFunction(ListflagData,finalPostList,'salebaba-21');
+      autopostFunction(ListflagData,finalPostList1,'kudrats-21');
+    }else{
+      console.log("b");
+    }
+    if (err) {
+      console.log('err: ', err);
+    }
+      })
+}, 110000)
+
+function getRandomArbitrary(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+async function autopostFunction(ListflagData,grouplist,tag) {  
+  var finalTextValue1 = getRandomArbitrary(1,113129)
+  await request({
+    uri: `https://backend.top9deals.com/admin/address/listamznproducts?start=`+finalTextValue1+`&length=20`,
+    method: "GET",
+  }, (err, response, body) => {
+    let post = JSON.parse(response.body).data.list[1];
+    let bitly = new BitlyClient(ListflagData[0].current_bitly);
+    if(tag == 'salebaba-21'){
+      example('https://top9deals.com/products/'+post.desk_cate+'/'+post.desk_sub_cate+'/'+post.desk_mini_sub_cate+'/'+post.id)
+    }else{
+      example('https://bestshoppingdeal.in/products/'+post.desk_cate+'/'+post.desk_sub_cate+'/'+post.desk_mini_sub_cate+'/'+post.id)
+    }
+    async function example(url) {
+      console.log('url: ', url);
+      let response =await bitly
+      .shorten(url)
+      .then(function(result) {
+        for (let l = 0; l < grouplist.length; l++) {
+          telePostWeb(ListflagData[0].kudart_token,grouplist[l].groupname,post.desk_img,post.product_title,result.link)
+        }
+      })
+      .catch(function(error) {
+        tinyUrl1(url)
+      });
+    }
+    async function tinyUrl1(url) {  
+      await request({
+        uri: "http://tinyurl.com/api-create.php?url="+url,
+        method: "GET",
+      }, (err, response, body) => {
+        for (let l = 0; l < grouplist.length; l++) {
+          telePostWeb(ListflagData[0].kudart_token,grouplist[l].groupname,post.desk_img,post.product_title,response.body)
+        }
+      })
+    }
+  })
+}
+
+function telePostWeb (token,chennalName,post_img,post_title,post_link) {
+  var chatId = chennalName; // <= replace with yours
+
+  var html = '🛍 ' + post_title + '\n\n' +
+    '🔗 <a href="' + post_link + '">' + post_link + '</a>\n';
+  if (html) {
+    bot = new nodeTelegramBotApi(token);
+    bot.sendPhoto(chatId, post_img, {
+      caption: html,
+      parse_mode: "HTML"
+    });
+  }
+}
+
 // function postImageWidth(post_link,token) {
 // function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegroup) {
 function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegroup,teleFlag,wattsflag,finalIdList,randomTagSelect) {
@@ -108,19 +190,6 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
         })
           });
         }
-    
-	setInterval( function setup() {
-	  let sqlsss = "SELECT * FROM post_flags";
-	  connection.query(sqlsss, function (err, tagChangeRandom) {
-	//     console.log('tagChangeRandom: ', tagChangeRandom[0].tag_switch);
-	//     var a = moment().utcOffset("+05:30").format("HH:mm");
-	//     if(a == "02:00"||a == "04:00"||a == "06:00"||a == "08:00"||a == "10:00"||a == "12:00"||a == "14:00"||a == "16:00"||a == "18:00"||a == "20:00"||a == "22:00"||a == "23:59" ){
-	//       console.log("a");
-	//     }else{
-	//       console.log("b");
-	//     }
-	      })
-	}, 19000)
 
     function telePostgujarat (token,post_img,post_title,post_regularPrice,post_sellPrice,savepercent,post_link,avilabilty) {
       var chatId = '@bestshoppingdl'; // <= replace with yours
