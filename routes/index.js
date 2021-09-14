@@ -23,34 +23,37 @@ router.get('/', function (req, res, next) {
 
 // function postImageWidth(post_link,token) {
 // function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegroup) {
-function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegroup,teleFlag,wattsflag,finalIdList) {
+function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegroup,teleFlag,wattsflag,finalIdList,randomTagSelect) {
   console.log('storeId: ', storeId);
   axios(post_link)
       .then(response => {
           var html = response.data;
           var $ = cheerio.load(html);
           var siteheadidsdng = $('.imgTagWrapper').find('img').attr('data-old-hires');
+          if (randomTagSelect == 'salebaba-21') {
           let sqlss = "INSERT INTO post_telegram3 (post_id,data) VALUES (" + storeId + ",'demo')";
           connection.query(sqlss, function (err, rides) {
             if (err) {
             console.log('err: ', err);
             }else{
-		    // if((teleFlag == '1' && wattsflag == '1')  || (teleFlag == '0' && wattsflag == '1' ) ){
-//                 whatsapp_posts1(finalAmznData, finalIdList[0].apiKey,finalIdList[0].phoneId,finalIdList[0].productId);
-//                 whatsapp_posts2(finalAmznData, finalIdList[1].apiKey,finalIdList[1].phoneId,finalIdList[1].productId);
-        //       }
-        //       if(teleFlag == '1' ){
                 if(siteheadidsdng && siteheadidsdng != 'undefined' && amzn_data){
-	                whatsapp_posts1(finalAmznData,siteheadidsdng, finalIdList[0].apiKey,finalIdList[0].phoneId,finalIdList[0].productId);
-                  whatsapp_posts2(finalAmznData,siteheadidsdng, finalIdList[1].apiKey,finalIdList[1].phoneId,finalIdList[1].productId);
+                    whatsapp_posts1(finalAmznData,siteheadidsdng, finalIdList[0].apiKey,finalIdList[0].phoneId,finalIdList[0].productId);
                   // telePost(amzn_data,siteheadidsdng,finalAmznData,"@salebabaG")
                   for (let l = 0; l < telegroup.length; l++) {
                     telePost(amzn_data,siteheadidsdng,finalAmznData,telegroup[l].groupname)
                   }
                 } 
-        // }
         }
       })
+    }else{
+      if(siteheadidsdng && siteheadidsdng != 'undefined' && amzn_data){
+          whatsapp_posts2(finalAmznData,siteheadidsdng, finalIdList[1].apiKey,finalIdList[1].phoneId,finalIdList[1].productId);
+        // telePost(amzn_data,siteheadidsdng,finalAmznData,"@salebabaG")
+        for (let l = 0; l < telegroup.length; l++) {
+          telePost(amzn_data,siteheadidsdng,finalAmznData,telegroup[l].groupname)
+        }
+      } 
+    }
     })
       .catch(err =>{ 
         let sqlss = "INSERT INTO post_telegram3 (post_id,data) VALUES (" + storeId + ",'demo')";
@@ -73,7 +76,6 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
              if(siteheadidsdngdemo){
              siteheadidsdng = siteheadidsdngdemo.replace(/128/g, 512).match(/(((ftp|https?):\/\/)[\-\w@:%_\+.~#?,!&\/\/=]+)/g);
              }
-             console.log('siteheadidsdng: ', siteheadidsdng);
               let sqlss = "INSERT INTO post_telegram3 (post_id,data) VALUES (" + storeId + ",'demo')";
               connection.query(sqlss, function (err, rides) {
                 if (err) {
@@ -85,7 +87,7 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
             //       }
             //       if(teleFlag == '1' ){
            if(siteheadidsdng && siteheadidsdng != 'undefined' && amzn_data){
-		   whatsapp_posts1(finalAmznData,siteheadidsdng[0], finalIdList[0].apiKey,finalIdList[0].phoneId,finalIdList[0].productId);
+		              whatsapp_posts1(finalAmznData,siteheadidsdng[0], finalIdList[0].apiKey,finalIdList[0].phoneId,finalIdList[0].productId);
                   whatsapp_posts2(finalAmznData,siteheadidsdng[0], finalIdList[1].apiKey,finalIdList[1].phoneId,finalIdList[1].productId);
                  
                   // telePost(amzn_data,siteheadidsdng[0],finalAmznData,"@salebabaG")
@@ -278,7 +280,7 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
               console.log('err: ', err);
             }
             else if (rides[0].cnt == 0) {
-//              posttele (rides[0].cnt, last_insert_id.id, matchObj);
+             posttele (rides[0].cnt, last_insert_id.id, matchObj);
             } else {
               // nextCall(null, bodyss);
             }
@@ -316,13 +318,8 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
         headers: requestHeaders1
       }, (err, response, body) => {
         let ListflagData = JSON.parse(body).data;
-//       let sqlsss = "SELECT * FROM post_flags";
-//         connection.query(sqlsss, function (err, flagData) {
-//           if (err) {
-//             console.log('err: ', err);
-//           }
-//         let ListflagData = flagData[0];
-        let bitly = new BitlyClient(ListflagData.current_bitly);
+        let finalPostList = JSON.parse(ListflagData.all_tele_group2).telenogroup;
+        let finalPostList1 = JSON.parse(ListflagData.all_tele_group1).telenogroup;
         let sqls = "SELECT post_id FROM post_telegram3 ORDER BY id DESC LIMIT 1";
         connection.query(sqls, function (err, rides) {
           if (err) {
@@ -332,207 +329,9 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
             let nextId = rides[0].post_id + i + 1;
             let userExists = lastArrayData.filter(user => user.id == nextId);
               if (userExists.length > 0 && userExists[0].text_data != 'null\n') {
-             let final =[];
-             let array = userExists[0].text_data.split("\n");
-             if(userExists[0].text_data.match(/(((ftp|https?):\/\/)[\-\w@:%_\+.~#?,!&\/\/=]+)/g)){ 
-             let array_length = userExists[0].text_data.match(/(((ftp|https?):\/\/)[\-\w@:%_\+.~#!?,&\/\/=]+)/g).length;
-              for (let j = 0; j < array.length; j++) {
-                if(array[j].match(/(((ftp|https?):\/\/)[\-\w@:%_\+.~#?,!&\/\/=]+)/g)){
-                  let xzhxzh;
-                    if(array[j].match(/amazon.in/g)){
-                     xzhxzh = array[j].replace(/[[\]]/g,'').replace(/ /g, '@')
-                    }else{
-                    xzhxzh = array[j]
-                    }
-                  let urls = xzhxzh.match(/(((ftp|https?):\/\/)[\-\w@:%_\+.~#?,!&\/\/=]+)/g)
-                     unshort(urls[0]).then(function(unshortenedUrls){ 
-                        let unshortenedUrl = unshortenedUrls.unshorten.replace(/&amp;/g,'&');
-                      console.log('unshortenedUrlsssssss: ', unshortenedUrl);
-                    if(unshortenedUrl.match(/amazon.in/g)){
-                      let tagnot;
-		      let tagSelect =["kudratutube-21","salebaba-21"];
-                      let randomTagSelect = tagSelect[Math.floor(Math.random() * tagSelect.length)];
-                    if(conurlencode(unshortenedUrl).match(/[?]/g)){
-                      let finalLink =conurlencode(unshortenedUrl).split('&');
-                      console.log('finalLink: ', finalLink);
-                      for (let h = 0; h < finalLink.length; h++) {
-                        if(finalLink[h].match(/[?]/g)){
-                          if(finalLink[h].match(/tag/g)){
-                            let finalLinkssd =finalLink[h].split('?');
-                            finalLink[h] = finalLinkssd[0].concat('?')
-                          }else if(finalLink[h].match(/ascsubtag/g)){
-                            let finalLinkssd =finalLink[h].split('?');
-                            finalLink[h] = finalLinkssd[0].concat('?')
-                          } else if(finalLink[h].match(/ascsub/g)){
-                            let finalLinkssd =finalLink[h].split('?');
-                            finalLink[h] = finalLinkssd[0].concat('?')
-                          }else if(finalLink[h].match(/keywords/g)){
-                            let finalLinkssdd =finalLink[h].split('?');
-                            finalLink[h] = finalLinkssdd[0].concat('?')
-                          }
-                        }else if(finalLink[h].match(/^ascsubtag/g)){
-                          finalLink[h] = "";
-                        }else if(finalLink[h].match(/^tag/g)){
-                          finalLink[h] = ""
-                        }else if(finalLink[h].match(/^ascsub/g)){
-                          finalLink[h] = ""
-                        }else if(finalLink[h].match(/^keywords/g)){
-                          finalLink[h] = ""
-                         }else if(finalLink[h].match(/^k/g)){
-                          finalLink[h] = ""
-                        }
-                      }
-                     
-                    let tagnots= finalLink.join('&').replace(/@/g, '').replace(/&&/g, '&').replace(/([\?][\/])/g, '?').replace(/(\?&)/g, '?').replace(/&&&/g, '&').replace(/([\/][\?])/g, '?');
-                    let tagnotRep= tagnots.replace(/[\?]/g,'?tag='+randomTagSelect+'&').replace(/&&/g, '&').replace(/([\?][\/])/g, '?').replace(/(\?&)/g, '?').replace(/&&&/g, '&').replace(/([\/][\?])/g, '?');
-                     if(tagnotRep.charAt(tagnotRep.length-1) == '&'){
-                      tagnot= tagnotRep.slice(0, -1);
-                     }else{
-                      tagnot= tagnotRep;
-                     }
-                    }else{
-                     tagnot= unshortenedUrl.replace(/@/g, '').concat('?tag='+randomTagSelect).replace(/&&/g, '&').replace(/(\?&)/g, '?').replace(/&&&/g, '&');
-                    }
-			    if(tagnot.match(/salebaba-21/g)){
-                                example(tagnot.replace(/&demoyou/g, '').replace(/https:\/\//g, 'https://top9deals.com/DealMakePage?dl=').replace(/\?tag/g, '/tag'));
-			      }else{
-                                example(tagnot.replace(/&demoyou/g, '').replace(/https:\/\//g, 'https://bestshoppingdeal.in/DealMakePage?dl=').replace(/\?tag/g, '/tag'));
-			    }
-                    
-                    async function example(dddd) {
-                      let response =await bitly
-                      .shorten(dddd)
-                      .then(function(result) {
-                        final[j] = array[j].replace(urls[0].replace(/@/g, ' ').trim(),result.link);
-                      })
-                      .catch(function(error) {
-                        console.log('error: ', error);
-                        tinyUrl1(dddd)
-                      });
-                    }
-                    async function tinyUrl1(dddd) {  
-                      await request({
-                        uri: "http://tinyurl.com/api-create.php?url="+dddd,
-                        method: "GET",
-                      }, (err, response, body) => {
-                        let responses ={"link":body};
-                        final[j] = array[j].replace(urls[0].replace(/@/g, ' ').trim(),responses.link);
-                      })
-                    }
-						  }else if(unshortenedUrl.match(/flipkart.com/g)){
-                        let tagnot;
-                        let quelink = unshortenedUrl;
-                        let quelinkRL;
-                        if(urlencode(quelink).match(/flipkart.com/g)){
-                          if(ListflagData.flipkart_server == 'dirflipkart'){
-                            console.log('ListflagData.kudart_token: ', ListflagData.flipkart_server );
-                          let tagnotFlipkart;
-                          if(quelink.match(/www.flipkart.com/g)){
-                            tagnotFlipkart = conurlencode(quelink).replace(/www.flipkart.com/g, 'dl.flipkart.com/dl');
-                          }else{
-                            tagnotFlipkart = conurlencode(quelink);
-                          }
-                          if(tagnotFlipkart.match(/[?]/g)){
-                          let finalLink =tagnotFlipkart.split('&');
-                          console.log('finalLink: ', finalLink);
-                          for (let h = 0; h < finalLink.length; h++) {
-                            if(finalLink[h].match(/[?]/g)){
-                              if(finalLink[h].match(/affid/g)){
-                                let finalLinkssd =finalLink[h].split('?');
-                                finalLink[h] = finalLinkssd[0].concat('?')
-                              }else if(finalLink[h].match(/affExtParam1/g)){
-                                let finalLinkssd =finalLink[h].split('?');
-                                finalLink[h] = finalLinkssd[0].concat('?')
-                              } else if(finalLink[h].match(/affExtParam2/g)){
-                                let finalLinkssd =finalLink[h].split('?');
-                                finalLink[h] = finalLinkssd[0].concat('?')
-                              }
-                            }else if(finalLink[h].match(/^affExtParam1/g)){
-                              finalLink[h] = "";
-                            }else if(finalLink[h].match(/^affExtParam2/g)){
-                              finalLink[h] = ""
-                            }else if(finalLink[h].match(/^affid/g)){
-                              finalLink[h] = ""
-                             }else if(finalLink[h].match(/^param/g)){
-                                  finalLink[h] = ""
-                                }
-                          }
-                          var dateObj = new Date();
-                          var month = dateObj.getUTCMonth() + 1; //months from 1-12
-                          var day = dateObj.getUTCDate();
-                          var year = dateObj.getUTCFullYear();
-                          var hour = dateObj.getHours();
-                          var minu = dateObj.getMinutes();
-                          let ren = Math.random().toString(36).substring(7);
-                        let tagnots= finalLink.join('&').replace(/@/g, '').replace(/&&/g, '&').replace(/(\?&)/g, '?').replace(/&&&/g, '&');
-                        tagnot= tagnots.concat('&affid='+ListflagData.flipkart_tag).replace(/(\?&)/g, '?').replace(/&&/g, '&');
-                        }else{
-                          var dateObj = new Date();
-                                var month = dateObj.getUTCMonth() + 1; //months from 1-12
-                                var day = dateObj.getUTCDate();
-                                var year = dateObj.getUTCFullYear();
-                                var hour = dateObj.getHours();
-                                var minu = dateObj.getMinutes();
-                                let ren = Math.random().toString(36).substring(7);
-                          tagnot= tagnotFlipkart.concat('?affid='+ListflagData.flipkart_tag);
-                        }
-        
-                          example4(tagnot.replace(/%25/g,'%'));
-                        }
-                      }
-
-                       function example4(dddd) {
-                         console.log('dddd: ', dddd);
-                         let response =  unshort(dddd).then(function(unshortenedUrls){ 
-                           console.log('unshortenedUrls: ', unshortenedUrls);
-                           let responses;
-                           if(unshortenedUrls.unshorten.match(/www.flipkart.com/g)){
-                           responses ={"link":unshortenedUrls.unshorten.replace(/www.flipkart.com/g, 'dl.flipkart.com/dl')};
-                            }else{
-                           responses ={"link":unshortenedUrls.unshorten};
-                            }
-                          final[j] = array[j].replace(urls[0].replace(/@/g, ' ').trim(),responses.link);
-                        })
-                        .catch(function(err){ return err;})
-                        }
-                    }else{
-                      final[j] = ' ';
-                    }
-                      })
-                      .catch(function(err){ console.error('AAAW 👻', err)})
-                }else{
-	                 final[j] = array[j].replace(/[?]q=%23/g,'#').replace(/frcp/g,'').replace(/Offerzone/g,'').replace(/Amazon gift voucher/g,'https://amzn.to/3afr8VB - Amazon gift voucher').replace(/FRCP/g,'').replace(/ihddeals.com/g,'bestshoppingdeal.in').replace(/@Offerzone_deals/g,'').replace(/@loot_deal_offers/g,'@asktodealadmin_bot').replace(/@truegrabbers/g,'@asktodealadmin_bot').replace(/@loot_deal_offers/g,'').replace(/@desire_deals/g,'').replace(/@online_offers12/g,'').replace(/@Ihd56bot/g,'@asktodealadmin_bot').replace(/cashkaro/g,'Deal').replace(/Cashkaro/g,'Deal').replace(/@I/g,'').replace(/@i/g,'').replace(/@S/g,'').replace(/@s/g,'').replace(/@f/g,'').replace(/@F/g,'').replace(/(t.me[\/])/g,'').replace(/IHD/g,'').replace(/t.me/g,'').replace(/@frcp_deals/g,' ').replace(/@IHDBROADCAST/g,' ').replace(/@IHDBroadcast/g,' ').replace(/IHDBROADCAST/g,' ').replace(/@stg003/g,' ').replace(/stg/g,'Best_shopping').replace(/ihd/g,' ').replace(/&#xA0;/g,' ').replace(/.#x...../g,' %E2%99%A8 ').replace(/[[\]]/g,'').replace(/&/g, 'and').replace(/;/g,'').replace(/^\s+|\s+$|\s+(?=\s)/g, '');
-	            	}
-              }
-              if(array_length == 1){
-                setTimeout(()=>{
-                  let finalAmazon = final.join('\n');
-                  console.log('finalAmazon: ', finalAmazon);
-                  let getUrlPost =  finalAmazon.match(/(((ftp|https?):\/\/)[\-\w@:%_\+.~#?,&\/\/=]+)/g);
-                  let finalIdListed = JSON.parse(ListflagData.array_data).user;
-                  let finalPostList = JSON.parse(ListflagData.all_tele_group).telenogroup;
-                   unshort(getUrlPost[0]).then(function(unshortenedUrls){ 
-                    let checkurl = unshortenedUrls.unshorten.replace(/&amp;/g,'&');
-                    if(checkurl.match(/amazon.in/g)){
-                      console.log("filll------");  
-                     postImageWidth(checkurl.replace('https://top9deals.com/DealMakePage?dl=','https://').replace('https://bestshoppingdeal.in/DealMakePage?dl=','https://').replace(/\/tag/g, '?tag'),ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed);
-
-//                       postImageWidth(checkurl.replace('https://top9deals.com/DealMakePage?dl=','https://').replace(/\/tag/g, '?tag'),ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed);
-                    }else if(checkurl.match(/flipkart.com/g)){
-//                       postFlipkartImageWidth(getUrlPost[0],ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed);
-                    }
-                })
-                .catch(function(err){ console.error('AAAW 👻', err)}) 
-               },Math.ceil(array.length/5)*3500);
+               makePostReady(userExists,ListflagData,'salebaba-21',finalPostList,nextId)
+               makePostReady(userExists,ListflagData,'kudratutube-21',finalPostList1,nextId)
              
-              }else{
-                let sqlss = "INSERT INTO post_telegram3 (post_id,data) VALUES (" + nextId + ",'demo')";
-                connection.query(sqlss, function (err, rides) {
-                  if (err) {
-                  console.log('err: ', err);
-                  }
-                })
-              }
             }else{
               let sqlss = "INSERT INTO post_telegram3 (post_id,data) VALUES (" + nextId + ",'demo')";
               connection.query(sqlss, function (err, rides) {
@@ -542,10 +341,211 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
               })
             }
           }
-          }
         })
       })
     }
+
+
+function makePostReady(userExists,ListflagData,randomTagSelect,finalPostList,nextId){
+    let final =[];
+    let bitly = new BitlyClient(ListflagData.current_bitly);
+    let array = userExists[0].text_data.split("\n");
+    if(userExists[0].text_data.match(/(((ftp|https?):\/\/)[\-\w@:%_\+.~#?,!&\/\/=]+)/g)){ 
+    let array_length = userExists[0].text_data.match(/(((ftp|https?):\/\/)[\-\w@:%_\+.~#!?,&\/\/=]+)/g).length;
+     for (let j = 0; j < array.length; j++) {
+       if(array[j].match(/(((ftp|https?):\/\/)[\-\w@:%_\+.~#?,!&\/\/=]+)/g)){
+         let xzhxzh;
+           if(array[j].match(/amazon.in/g)){
+            xzhxzh = array[j].replace(/[[\]]/g,'').replace(/ /g, '@')
+           }else{
+           xzhxzh = array[j]
+           }
+         let urls = xzhxzh.match(/(((ftp|https?):\/\/)[\-\w@:%_\+.~#?,!&\/\/=]+)/g)
+            unshort(urls[0]).then(function(unshortenedUrls){ 
+               let unshortenedUrl = unshortenedUrls.unshorten.replace(/&amp;/g,'&');
+           if(unshortenedUrl.match(/amazon.in/g)){
+             let tagnot;
+             let tagSelect =["kudratutube-21","salebaba-21"];
+            //  let randomTagSelect = tagSelect[Math.floor(Math.random() * tagSelect.length)];
+           if(conurlencode(unshortenedUrl).match(/[?]/g)){
+             let finalLink =conurlencode(unshortenedUrl).split('&');
+             for (let h = 0; h < finalLink.length; h++) {
+               if(finalLink[h].match(/[?]/g)){
+                 if(finalLink[h].match(/tag/g)){
+                   let finalLinkssd =finalLink[h].split('?');
+                   finalLink[h] = finalLinkssd[0].concat('?')
+                 }else if(finalLink[h].match(/ascsubtag/g)){
+                   let finalLinkssd =finalLink[h].split('?');
+                   finalLink[h] = finalLinkssd[0].concat('?')
+                 } else if(finalLink[h].match(/ascsub/g)){
+                   let finalLinkssd =finalLink[h].split('?');
+                   finalLink[h] = finalLinkssd[0].concat('?')
+                 }else if(finalLink[h].match(/keywords/g)){
+                   let finalLinkssdd =finalLink[h].split('?');
+                   finalLink[h] = finalLinkssdd[0].concat('?')
+                 }
+               }else if(finalLink[h].match(/^ascsubtag/g)){
+                 finalLink[h] = "";
+               }else if(finalLink[h].match(/^tag/g)){
+                 finalLink[h] = ""
+               }else if(finalLink[h].match(/^ascsub/g)){
+                 finalLink[h] = ""
+               }else if(finalLink[h].match(/^keywords/g)){
+                 finalLink[h] = ""
+                }else if(finalLink[h].match(/^k/g)){
+                 finalLink[h] = ""
+               }
+             }
+            
+           let tagnots= finalLink.join('&').replace(/@/g, '').replace(/&&/g, '&').replace(/([\?][\/])/g, '?').replace(/(\?&)/g, '?').replace(/&&&/g, '&').replace(/([\/][\?])/g, '?');
+           let tagnotRep= tagnots.replace(/[\?]/g,'?tag='+randomTagSelect+'&').replace(/&&/g, '&').replace(/([\?][\/])/g, '?').replace(/(\?&)/g, '?').replace(/&&&/g, '&').replace(/([\/][\?])/g, '?');
+            if(tagnotRep.charAt(tagnotRep.length-1) == '&'){
+             tagnot= tagnotRep.slice(0, -1);
+            }else{
+             tagnot= tagnotRep;
+            }
+           }else{
+            tagnot= unshortenedUrl.replace(/@/g, '').concat('?tag='+randomTagSelect).replace(/&&/g, '&').replace(/(\?&)/g, '?').replace(/&&&/g, '&');
+           }
+           if(tagnot.match(/salebaba-21/g)){
+             example(tagnot.replace(/&demoyou/g, '').replace(/https:\/\//g, 'https://top9deals.com/DealMakePage?dl=').replace(/\?tag/g, '/tag'));
+            }else{
+             example(tagnot.replace(/&demoyou/g, '').replace(/https:\/\//g, 'https://bestshoppingdeal.in/DealMakePage?dl=').replace(/\?tag/g, '/tag'));
+             }
+             
+           async function example(dddd) {
+             let response =await bitly
+             .shorten(dddd)
+             .then(function(result) {
+               final[j] = array[j].replace(urls[0].replace(/@/g, ' ').trim(),result.link);
+             })
+             .catch(function(error) {
+               console.log('error: ', error);
+               tinyUrl1(dddd)
+             });
+           }
+           async function tinyUrl1(dddd) {  
+             await request({
+               uri: "http://tinyurl.com/api-create.php?url="+dddd,
+               method: "GET",
+             }, (err, response, body) => {
+               let responses ={"link":body};
+               final[j] = array[j].replace(urls[0].replace(/@/g, ' ').trim(),responses.link);
+             })
+           }
+     }else if(unshortenedUrl.match(/flipkart.com/g)){
+               let tagnot;
+               let quelink = unshortenedUrl;
+               let quelinkRL;
+               if(urlencode(quelink).match(/flipkart.com/g)){
+                 if(ListflagData.flipkart_server == 'dirflipkart'){
+                 let tagnotFlipkart;
+                 if(quelink.match(/www.flipkart.com/g)){
+                   tagnotFlipkart = conurlencode(quelink).replace(/www.flipkart.com/g, 'dl.flipkart.com/dl');
+                 }else{
+                   tagnotFlipkart = conurlencode(quelink);
+                 }
+                 if(tagnotFlipkart.match(/[?]/g)){
+                 let finalLink =tagnotFlipkart.split('&');
+                 for (let h = 0; h < finalLink.length; h++) {
+                   if(finalLink[h].match(/[?]/g)){
+                     if(finalLink[h].match(/affid/g)){
+                       let finalLinkssd =finalLink[h].split('?');
+                       finalLink[h] = finalLinkssd[0].concat('?')
+                     }else if(finalLink[h].match(/affExtParam1/g)){
+                       let finalLinkssd =finalLink[h].split('?');
+                       finalLink[h] = finalLinkssd[0].concat('?')
+                     } else if(finalLink[h].match(/affExtParam2/g)){
+                       let finalLinkssd =finalLink[h].split('?');
+                       finalLink[h] = finalLinkssd[0].concat('?')
+                     }
+                   }else if(finalLink[h].match(/^affExtParam1/g)){
+                     finalLink[h] = "";
+                   }else if(finalLink[h].match(/^affExtParam2/g)){
+                     finalLink[h] = ""
+                   }else if(finalLink[h].match(/^affid/g)){
+                     finalLink[h] = ""
+                    }else if(finalLink[h].match(/^param/g)){
+                         finalLink[h] = ""
+                       }
+                 }
+                 var dateObj = new Date();
+                 var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                 var day = dateObj.getUTCDate();
+                 var year = dateObj.getUTCFullYear();
+                 var hour = dateObj.getHours();
+                 var minu = dateObj.getMinutes();
+                 let ren = Math.random().toString(36).substring(7);
+               let tagnots= finalLink.join('&').replace(/@/g, '').replace(/&&/g, '&').replace(/(\?&)/g, '?').replace(/&&&/g, '&');
+               tagnot= tagnots.concat('&affid='+ListflagData.flipkart_tag).replace(/(\?&)/g, '?').replace(/&&/g, '&');
+               }else{
+                 var dateObj = new Date();
+                       var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                       var day = dateObj.getUTCDate();
+                       var year = dateObj.getUTCFullYear();
+                       var hour = dateObj.getHours();
+                       var minu = dateObj.getMinutes();
+                       let ren = Math.random().toString(36).substring(7);
+                 tagnot= tagnotFlipkart.concat('?affid='+ListflagData.flipkart_tag);
+               }
+
+                 example4(tagnot.replace(/%25/g,'%'));
+               }
+             }
+
+              function example4(dddd) {
+                let response =  unshort(dddd).then(function(unshortenedUrls){ 
+                  let responses;
+                  if(unshortenedUrls.unshorten.match(/www.flipkart.com/g)){
+                  responses ={"link":unshortenedUrls.unshorten.replace(/www.flipkart.com/g, 'dl.flipkart.com/dl')};
+                   }else{
+                  responses ={"link":unshortenedUrls.unshorten};
+                   }
+                 final[j] = array[j].replace(urls[0].replace(/@/g, ' ').trim(),responses.link);
+               })
+               .catch(function(err){ return err;})
+               }
+           }else{
+             final[j] = ' ';
+           }
+             })
+             .catch(function(err){ console.error('AAAW 👻', err)})
+       }else{
+         if(array[j].match(/Deal Price/g) || array[j].match(/MRP/g)){
+           final[j] = '';
+         }else{
+           final[j] = array[j].replace(/[?]q=%23/g,'#').replace(/frcp/g,'').replace(/Offerzone/g,'').replace(/Amazon gift voucher/g,'https://amzn.to/3afr8VB - Amazon gift voucher').replace(/FRCP/g,'').replace(/ihddeals.com/g,'bestshoppingdeal.in').replace(/@Offerzone_deals/g,'').replace(/@loot_deal_offers/g,'@asktodealadmin_bot').replace(/@truegrabbers/g,'@asktodealadmin_bot').replace(/@loot_deal_offers/g,'').replace(/@desire_deals/g,'').replace(/@online_offers12/g,'').replace(/@Ihd56bot/g,'@asktodealadmin_bot').replace(/cashkaro/g,'Deal').replace(/Cashkaro/g,'Deal').replace(/@I/g,'').replace(/@i/g,'').replace(/@S/g,'').replace(/@s/g,'').replace(/@f/g,'').replace(/@F/g,'').replace(/(t.me[\/])/g,'').replace(/IHD/g,'').replace(/t.me/g,'').replace(/@frcp_deals/g,' ').replace(/@IHDBROADCAST/g,' ').replace(/@IHDBroadcast/g,' ').replace(/IHDBROADCAST/g,' ').replace(/@stg003/g,' ').replace(/stg/g,'Best_shopping').replace(/ihd/g,' ').replace(/&#xA0;/g,' ').replace(/.#x...../g,' %E2%99%A8 ').replace(/[[\]]/g,'').replace(/&/g, 'and').replace(/;/g,'').replace(/^\s+|\s+$|\s+(?=\s)/g, '');
+         }
+       }
+     }
+  if(array_length == 1){
+    setTimeout(()=>{
+      const arr2 = final.filter(item => item.length !== 0)          
+      let finalAmazon = arr2.join('\n\n');
+      let getUrlPost =  finalAmazon.match(/(((ftp|https?):\/\/)[\-\w@:%_\+.~#?,&\/\/=]+)/g);
+      let finalIdListed = JSON.parse(ListflagData.array_data).user;
+      unshort(getUrlPost[0]).then(function(unshortenedUrls){ 
+        let checkurl = unshortenedUrls.unshorten.replace(/&amp;/g,'&');
+        if(checkurl.match(/amazon.in/g)){
+          postImageWidth(checkurl.replace('https://top9deals.com/DealMakePage?dl=','https://').replace('https://bestshoppingdeal.in/DealMakePage?dl=','https://').replace(/\/tag/g, '?tag'),ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed,randomTagSelect);
+        }else if(checkurl.match(/flipkart.com/g)){
+      //  postFlipkartImageWidth(getUrlPost[0],ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed);
+        }
+    })
+    .catch(function(err){ console.error('AAAW 👻', err)}) 
+   },Math.ceil(array.length/5)*3500);
+ 
+  }else{
+    let sqlss = "INSERT INTO post_telegram3 (post_id,data) VALUES (" + nextId + ",'demo')";
+    connection.query(sqlss, function (err, rides) {
+      if (err) {
+      console.log('err: ', err);
+      }
+    })
+  }
+}
+}
+
 
 function teleAutoPostChannel(finalAmazon,chanelName,token){
     var chatId = chanelName; // <= replace with yours
@@ -567,7 +567,6 @@ router.post('/getAllInOneData', function (req, res) {
       var sql = "Select count(*) as TotalCount from ??";
       connection.query(sql, ['post_telegram3'], function (err, rides) {
         if (err) {
-          console.log('11');
           return nextCall({
             "message": "something went wrong",
           });
