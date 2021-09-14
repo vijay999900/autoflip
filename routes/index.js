@@ -54,7 +54,7 @@ function getRandomArbitrary(min, max) {
 async function autopostFunction(ListflagData,grouplist,tag) {  
   var finalTextValue1 = getRandomArbitrary(1,113129)
   await request({
-    uri: `https://backend.top9deals.com/admin/address/listamznproducts?start=`+finalTextValue1+`&length=20`,
+    uri: 'https://backend.top9deals.com/admin/address/listamznproductsamz?start=`+finalTextValue1+`&length=20&search="amazon"',
     method: "GET",
   }, (err, response, body) => {
     let post = JSON.parse(response.body).data.list[1];
