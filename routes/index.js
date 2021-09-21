@@ -595,6 +595,7 @@ function makePostReady(userExists,ListflagData,randomTagSelect,finalPostList,nex
       let finalAmazon = arr2.join('\n\n');
       let getUrlPost =  finalAmazon.match(/(((ftp|https?):\/\/)[\-\w@:%_\+.~#?,&\/\/=]+)/g);
       let finalIdListed = JSON.parse(ListflagData.array_data).user;
+if(getUrlPost.length){
       unshort(getUrlPost[0]).then(function(unshortenedUrls){ 
         let checkurl = unshortenedUrls.unshorten.replace(/&amp;/g,'&');
         if(checkurl.match(/amazon.in/g)){
@@ -603,7 +604,15 @@ function makePostReady(userExists,ListflagData,randomTagSelect,finalPostList,nex
       //  postFlipkartImageWidth(getUrlPost[0],ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed);
         }
     })
-    .catch(function(err){ console.error('AAAW 👻', err)}) 
+    .catch(function(err){ console.error('AAAW 👻', err)})
+}else{
+ let sqlss = "INSERT INTO post_telegram3 (post_id,data) VALUES (" + nextId + ",'demo')";
+    connection.query(sqlss, function (err, rides) {
+      if (err) {
+      console.log('err: ', err);
+      }
+    })
+}
    },Math.ceil(array.length/5)*3500);
  
   }else{
