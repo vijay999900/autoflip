@@ -595,7 +595,7 @@ function makePostReady(userExists,ListflagData,randomTagSelect,finalPostList,nex
       let finalAmazon = arr2.join('\n\n');
       let getUrlPost =  finalAmazon.match(/(((ftp|https?):\/\/)[\-\w@:%_\+.~#?,&\/\/=]+)/g);
       let finalIdListed = JSON.parse(ListflagData.array_data).user;
-if(getUrlPost.length){
+if(getUrlPost){
       unshort(getUrlPost[0]).then(function(unshortenedUrls){ 
         let checkurl = unshortenedUrls.unshorten.replace(/&amp;/g,'&');
         if(checkurl.match(/amazon.in/g)){
