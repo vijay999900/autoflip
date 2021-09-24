@@ -421,6 +421,17 @@ function makePostReady(userExists,ListflagData,randomTagSelect,finalPostList,nex
     let final =[];
     let bitly = new BitlyClient(ListflagData.current_bitly);
     let array = userExists[0].text_data.split("\n");
+    let finalTextValue2;
+    let uFinalUrl2;
+    let finalTextValue1;
+    let uFinalUrl1;
+    if (randomTagSelect == 'salebaba-21') {
+        finalTextValue2 = getRandomArbitrary(42241,43947);
+        uFinalUrl2 = "https://top9deals.com/products/women/clothing/western-wear/"+finalTextValue2+"?current=offer&dl="
+     }else{
+        finalTextValue1 = getRandomArbitrary(1,1726);
+        uFinalUrl1 = "https://bestshoppingdeal.in/products/men/clothing/shirts/"+finalTextValue1+"?current=offer&dl="
+     }
     if(userExists[0].text_data.match(/(((ftp|https?):\/\/)[\-\w@:%_\+.~#?,!&\/\/=]+)/g)){ 
     let array_length = userExists[0].text_data.match(/(((ftp|https?):\/\/)[\-\w@:%_\+.~#!?,&\/\/=]+)/g).length;
      for (let j = 0; j < array.length; j++) {
@@ -479,9 +490,9 @@ function makePostReady(userExists,ListflagData,randomTagSelect,finalPostList,nex
             tagnot= unshortenedUrl.replace(/@/g, '').concat('?tag='+randomTagSelect).replace(/&&/g, '&').replace(/(\?&)/g, '?').replace(/&&&/g, '&');
            }
            if(tagnot.match(/salebaba-21/g)){
-             example(tagnot.replace(/&demoyou/g, '').replace(/https:\/\//g, 'https://top9deals.com/DealMakePage?dl=').replace(/\?tag/g, '/tag'));
+             example(tagnot.replace(/&demoyou/g, '').replace(/https:\/\//g, uFinalUrl2).replace(/\?tag/g, '/tag'));
             }else{
-             example(tagnot.replace(/&demoyou/g, '').replace(/https:\/\//g, 'https://bestshoppingdeal.in/DealMakePage?dl=').replace(/\?tag/g, '/tag'));
+             example(tagnot.replace(/&demoyou/g, '').replace(/https:\/\//g, uFinalUrl1).replace(/\?tag/g, '/tag'));
              }
              
            async function example(dddd) {
@@ -599,7 +610,7 @@ if(getUrlPost){
       unshort(getUrlPost[0]).then(function(unshortenedUrls){ 
         let checkurl = unshortenedUrls.unshorten.replace(/&amp;/g,'&');
         if(checkurl.match(/amazon.in/g)){
-          postImageWidth(checkurl.replace('https://top9deals.com/DealMakePage?dl=','https://').replace('https://bestshoppingdeal.in/DealMakePage?dl=','https://').replace(/\/tag/g, '?tag'),ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed,randomTagSelect);
+          postImageWidth(checkurl.replace(uFinalUrl1,'https://').replace(uFinalUrl2,'https://').replace(/\/tag/g, '?tag'),ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed,randomTagSelect);
         }else if(checkurl.match(/flipkart.com/g)){
       //  postFlipkartImageWidth(getUrlPost[0],ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed);
         }
