@@ -16,6 +16,7 @@ const cheerio = require('cheerio')
 var _ = require('underscore');
 const unshort = require('url-unshorten');
 var moment = require('moment');
+var querystring = require('querystring');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -427,10 +428,10 @@ function makePostReady(userExists,ListflagData,randomTagSelect,finalPostList,nex
     let uFinalUrl1;
     if (randomTagSelect == 'salebaba-21') {
         finalTextValue2 = getRandomArbitrary(42241,43947);
-        uFinalUrl2 = "https://top9deals.com/products/women/clothing/western-wear/"+finalTextValue2+"?current=offer&dl="
+        uFinalUrl2 = "https://top9deals.com/products/women/clothing/western-wear/"+finalTextValue2+"?dl="
      }else{
         finalTextValue1 = getRandomArbitrary(1,1726);
-        uFinalUrl1 = "https://bestshoppingdeal.in/products/men/clothing/shirts/"+finalTextValue1+"?current=offer&dl="
+        uFinalUrl1 = "https://bestshoppingdeal.in/products/men/clothing/shirts/"+finalTextValue1+"?dl="
      }
     if(userExists[0].text_data.match(/(((ftp|https?):\/\/)[\-\w@:%_\+.~#?,!&\/\/=]+)/g)){ 
     let array_length = userExists[0].text_data.match(/(((ftp|https?):\/\/)[\-\w@:%_\+.~#!?,&\/\/=]+)/g).length;
@@ -606,24 +607,30 @@ function makePostReady(userExists,ListflagData,randomTagSelect,finalPostList,nex
       let finalAmazon = arr2.join('\n\n');
       let getUrlPost =  finalAmazon.match(/(((ftp|https?):\/\/)[\-\w@:%_\+.~#?,&\/\/=]+)/g);
       let finalIdListed = JSON.parse(ListflagData.array_data).user;
-if(getUrlPost){
+    if(getUrlPost){
       unshort(getUrlPost[0]).then(function(unshortenedUrls){ 
         let checkurl = unshortenedUrls.unshorten.replace(/&amp;/g,'&');
         if(checkurl.match(/amazon.in/g)){
+          if(checkurl.match(/top9deals.com/g)){
+            app_randomLink(2,checkurl.replace(/salebaba-21/g,'salebabaaio-21'),'update_amz_india');
+          }
+          if(checkurl.match(/bestshoppingdeal.in/g)){
+            app_randomLink(2,checkurl.replace(/kudratutube-21/g,'kudrataio-21'),'update_amz');
+          }
           postImageWidth(checkurl.replace(uFinalUrl1,'https://').replace(uFinalUrl2,'https://').replace(/\/tag/g, '?tag'),ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed,randomTagSelect);
         }else if(checkurl.match(/flipkart.com/g)){
       //  postFlipkartImageWidth(getUrlPost[0],ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed);
         }
     })
     .catch(function(err){ console.error('AAAW 👻', err)})
-}else{
- let sqlss = "INSERT INTO post_telegram3 (post_id,data) VALUES (" + nextId + ",'demo')";
+  }else{
+    let sqlss = "INSERT INTO post_telegram3 (post_id,data) VALUES (" + nextId + ",'demo')";
     connection.query(sqlss, function (err, rides) {
       if (err) {
       console.log('err: ', err);
       }
     })
-}
+  }
    },Math.ceil(array.length/5)*3500);
  
   }else{
@@ -637,6 +644,25 @@ if(getUrlPost){
 }
 }
 
+function app_randomLink(id,link,apiname){
+  let form = {
+    "id": id,
+    "sALink": link
+   }
+   var formData = querystring.stringify(form);
+   var contentLength = formData.length;
+   request({
+     headers: {
+       'Content-Length': contentLength,
+       'Content-Type': 'application/x-www-form-urlencoded'
+     },
+     uri: "https://backend.top9deals.com/admin/address/"+apiname,
+     method: "POST",
+     body: formData,
+   }, (err, response, body) => {
+     let link = JSON.parse(body);
+   })
+ }
 
 function teleAutoPostChannel(finalAmazon,chanelName,token){
     var chatId = chanelName; // <= replace with yours
