@@ -66,7 +66,7 @@ async function autopostFunction(ListflagData,grouplist,tag) {
       app_randomLink(2,dflink,'update_amz_india');
       example('https://top9deals.com/products/'+post.desk_cate+'/'+post.desk_sub_cate+'/'+post.desk_mini_sub_cate+'/'+post.id)
     }else{
-      let dflink1 = 'https://top9deals.com/products/'+post.desk_cate+'/'+post.desk_sub_cate+'/'+post.desk_mini_sub_cate+'/'+post.id;
+      let dflink1 = 'https://bestshoppingdeal.in/products/'+post.desk_cate+'/'+post.desk_sub_cate+'/'+post.desk_mini_sub_cate+'/'+post.id;
       app_randomLink(2,dflink1,'update_amz');
       example('https://bestshoppingdeal.in/products/'+post.desk_cate+'/'+post.desk_sub_cate+'/'+post.desk_mini_sub_cate+'/'+post.id)
     }
