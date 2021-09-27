@@ -62,8 +62,12 @@ async function autopostFunction(ListflagData,grouplist,tag) {
     let post = JSON.parse(response.body).data.list[1];
     let bitly = new BitlyClient(ListflagData[0].current_bitly);
     if(tag == 'salebaba-21'){
+      let dflink = 'https://top9deals.com/products/'+post.desk_cate+'/'+post.desk_sub_cate+'/'+post.desk_mini_sub_cate+'/'+post.id;
+      app_randomLink(2,dflink,'update_amz_india');
       example('https://top9deals.com/products/'+post.desk_cate+'/'+post.desk_sub_cate+'/'+post.desk_mini_sub_cate+'/'+post.id)
     }else{
+      let dflink1 = 'https://top9deals.com/products/'+post.desk_cate+'/'+post.desk_sub_cate+'/'+post.desk_mini_sub_cate+'/'+post.id;
+      app_randomLink(2,dflink1,'update_amz');
       example('https://bestshoppingdeal.in/products/'+post.desk_cate+'/'+post.desk_sub_cate+'/'+post.desk_mini_sub_cate+'/'+post.id)
     }
     async function example(url) {
@@ -611,12 +615,12 @@ function makePostReady(userExists,ListflagData,randomTagSelect,finalPostList,nex
       unshort(getUrlPost[0]).then(function(unshortenedUrls){ 
         let checkurl = unshortenedUrls.unshorten.replace(/&amp;/g,'&');
         if(checkurl.match(/amazon.in/g)){
-          if(checkurl.match(/top9deals.com/g)){
-            app_randomLink(2,checkurl.replace(/salebaba-21/g,'salebabaaio-21'),'update_amz_india');
-          }
-          if(checkurl.match(/bestshoppingdeal.in/g)){
-            app_randomLink(2,checkurl.replace(/kudratutube-21/g,'kudrataio-21'),'update_amz');
-          }
+//           if(checkurl.match(/top9deals.com/g)){
+//             app_randomLink(2,checkurl.replace(/salebaba-21/g,'salebabaaio-21'),'update_amz_india');
+//           }
+//           if(checkurl.match(/bestshoppingdeal.in/g)){
+//             app_randomLink(2,checkurl.replace(/kudratutube-21/g,'kudrataio-21'),'update_amz');
+//           }
 //           postImageWidth(checkurl.replace(uFinalUrl1,'https://').replace(uFinalUrl2,'https://').replace(/\/tag/g, '?tag'),ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed,randomTagSelect);
         }else if(checkurl.match(/flipkart.com/g)){
       //  postFlipkartImageWidth(getUrlPost[0],ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed);
