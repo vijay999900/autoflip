@@ -617,7 +617,7 @@ function makePostReady(userExists,ListflagData,randomTagSelect,finalPostList,nex
           if(checkurl.match(/bestshoppingdeal.in/g)){
             app_randomLink(2,checkurl.replace(/kudratutube-21/g,'kudrataio-21'),'update_amz');
           }
-          postImageWidth(checkurl.replace(uFinalUrl1,'https://').replace(uFinalUrl2,'https://').replace(/\/tag/g, '?tag'),ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed,randomTagSelect);
+//           postImageWidth(checkurl.replace(uFinalUrl1,'https://').replace(uFinalUrl2,'https://').replace(/\/tag/g, '?tag'),ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed,randomTagSelect);
         }else if(checkurl.match(/flipkart.com/g)){
       //  postFlipkartImageWidth(getUrlPost[0],ListflagData.bestshopping_token,ListflagData.kudart_token,nextId,finalAmazon,finalPostList,ListflagData.ihd_tele_flag,ListflagData.ihd_watts_flag,finalIdListed);
         }
