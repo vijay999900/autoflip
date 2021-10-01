@@ -394,8 +394,8 @@ function postImageWidth(post_link,token,amzn_data,storeId,finalAmznData,telegrou
         headers: requestHeaders1
       }, (err, response, body) => {
         let ListflagData = JSON.parse(body).data;
-        let finalPostList = JSON.parse(ListflagData.rem_all_tele_group2).telenogroup;
-        let finalPostList1 = JSON.parse(ListflagData.rem_all_tele_group1).telenogroup;
+        let finalPostList = JSON.parse(ListflagData.all_tele_group2).telenogroup;
+        let finalPostList1 = JSON.parse(ListflagData.all_tele_group1).telenogroup;
         let sqls = "SELECT post_id FROM post_telegram3 ORDER BY id DESC LIMIT 1";
         connection.query(sqls, function (err, rides) {
           if (err) {
