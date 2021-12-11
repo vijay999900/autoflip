@@ -66,6 +66,7 @@ async function autopostFunction(ListflagData,grouplist,tag) {
     if(tag == 'salebaba-21'){
       let dflink = 'https://top9deals.com/products/'+post.desk_cate+'/'+post.desk_sub_cate+'/'+post.desk_mini_sub_cate+'/'+post.id;
       app_randomLink(2,dflink,'update_amz_india');
+      tinyUrl2('https://top9deals.com/products/'+post.desk_cate+'/'+post.desk_sub_cate+'/'+post.desk_mini_sub_cate+'/'+post.id)
 //       example('https://top9deals.com/products/'+post.desk_cate+'/'+post.desk_sub_cate+'/'+post.desk_mini_sub_cate+'/'+post.id)
     }else{
       let dflink1 = 'https://bestshoppingdeal.in/products/'+post.desk_cate+'/'+post.desk_sub_cate+'/'+post.desk_mini_sub_cate+'/'+post.id;
@@ -95,6 +96,18 @@ async function autopostFunction(ListflagData,grouplist,tag) {
         }
       })
     }
+	
+    async function tinyUrl2(url) {  
+      await request({
+        uri: "http://tinyurl.com/api-create.php?url="+url,
+        method: "GET",
+      }, (err, response, body) => {
+//         for (let l = 0; l < grouplist.length; l++) {
+          telePostWeb(ListflagData[0].kudart_token,"@top9deal",post.desk_img,post.product_title,response.body)
+//         }
+      })
+    }  
+	  
   })
 }
 
