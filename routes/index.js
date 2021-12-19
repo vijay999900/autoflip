@@ -71,7 +71,8 @@ async function autopostFunction(ListflagData,grouplist,tag) {
     }else{
       let dflink1 = 'https://bestshoppingdeal.in/products/'+post.desk_cate+'/'+post.desk_sub_cate+'/'+post.desk_mini_sub_cate+'/'+post.id;
       app_randomLink(2,dflink1,'update_amz');
-      tinyUrl1('https://bestshoppingdeal.in/products/'+post.desk_cate+'/'+post.desk_sub_cate+'/'+post.desk_mini_sub_cate+'/'+post.id)
+      tinyUrl3('https://bestshoppingdeal.in/products/'+post.desk_cate+'/'+post.desk_sub_cate+'/'+post.desk_mini_sub_cate+'/'+post.id)
+//       tinyUrl1('https://bestshoppingdeal.in/products/'+post.desk_cate+'/'+post.desk_sub_cate+'/'+post.desk_mini_sub_cate+'/'+post.id)
     }
     async function example(url) {
       console.log('url: ', url);
@@ -107,6 +108,17 @@ async function autopostFunction(ListflagData,grouplist,tag) {
 //         }
       })
     }  
+    async function tinyUrl3(url) {  
+      await request({
+        uri: "http://tinyurl.com/api-create.php?url="+url,
+        method: "GET",
+      }, (err, response, body) => {
+//         for (let l = 0; l < grouplist.length; l++) {
+          telePostWeb(ListflagData[0].kudart_token,"@bestshoppingdl",post.desk_img,post.product_title,response.body)
+          telePostWeb(ListflagData[0].kudart_token,"@bestshoppingdeal00",post.desk_img,post.product_title,response.body)
+//         }
+      })
+    } 
 	  
   })
 }
