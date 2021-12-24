@@ -6,19 +6,19 @@ var mysql  = require('mysql');
 
 
 //- Connection configuration
-// var db_config = {
-//   host     : 'remotemysql.com',
-//   user     : 'oQP5gUwBbe',
-//   password : 'Bxer38fbP2',
-//   database:'oQP5gUwBbe'
-// };
-
 var db_config = {
   host     : 'sql6.freesqldatabase.com',
-  user     : 'sql6453992',
-  password : 'Wi6qLQrqdr',
-  database:'sql6453992'
-}; 
+  user     : 'sql6460964',
+  password : 'HSl77PfFfD',
+  database:'sql6460964'
+};
+
+// var db_config = {
+//   host     : 'sql6.freesqldatabase.com',
+//   user     : 'sql6453992',
+//   password : 'Wi6qLQrqdr',
+//   database:'sql6453992'
+// }; 
 
 // var db_config = {
 //     host     : 'localhost',
